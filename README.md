@@ -50,3 +50,40 @@ CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE
 "emitDecoratorMetadata": true,
 "experimentalDecorators": true,
 ```
+
+## 使用 typeorm
+
+```javascript
+npx typeorm init --database postgres
+```
+
+将 gitignore 的所有修改撤销
+
+```javascript
+git checkout HEAD -- .gitignore
+```
+
+将 package.json 的所有修改撤销
+
+```javascript
+git checkout HEAD -- package.json
+```
+
+将 tsconfig.json 的所有修改撤销
+
+```javascript
+ git checkout HEAD -- tsconfig.json
+```
+
+修改 ormconfi.json 中的 ip 地址为 docker 的 ip 地址,username 等
+
+```javascript
+{
+  "type": "postgres",
+  "host": "192.168.99.100",
+  "port": 5432,
+  "username": "blog",
+  "password": "",
+  "database": "blog_development",
+}
+```
