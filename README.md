@@ -12,21 +12,19 @@ docker run -v "blog-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER
 
 ```javascript
 docker exec -it 容器id bash
-
 ```
 
 - 进入 pg 命令行
 
 ```javascript
-docker -U blog -W
-
+psql -U blog -W
 ```
 
 - 执行 pg 命令行
 
 ```javascript
 \l 用于list databases
-\c 用于connect to a database
+\c 用于connect to a database   // \c blog_development 连接到blog_development数据库
 \dt 用于display tables
 ```
 
