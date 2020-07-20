@@ -1,17 +1,39 @@
-# 初始代码
+# 使用 next.js 和 typeorm 搭建 blog
 
-## 开发
+## 使用 docker 启动数据库
 
-```bash
-yarn dev
-# or
-npm run dev
+```javascript
+docker run -v "blog-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
 ```
 
-## 部署
+## 验证 pg
 
-```bash 
-yarn build
-yarn start
+- 进入 docker 容器
+
+```javascript
+docker exec -it 容器id bash
+
 ```
 
+- 进入 pg 命令行
+
+```javascript
+docker -U blog -W
+
+```
+
+- 执行 pg 命令行
+
+```javascript
+\l 用于list databases
+\c 用于connect to a database
+\dt 用于display tables
+```
+
+## 创建数据库
+
+```javascript
+CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+CREATE DATABASE blog_test ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+```
