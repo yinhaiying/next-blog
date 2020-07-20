@@ -37,3 +37,16 @@ CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYP
 CREATE DATABASE blog_test ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
 CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
 ```
+
+## [安装 typeorm](https://github.com/typeorm/typeorm)
+
+```javascript
+ yarn add typeorm reflect-metadata  @types/node pg -S   // typeorm最好全局安装
+```
+
+修改 tsconfig 的配置文件
+
+```javascript
+"emitDecoratorMetadata": true,
+"experimentalDecorators": true,
+```
