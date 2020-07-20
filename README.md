@@ -87,3 +87,46 @@ git checkout HEAD -- package.json
   "database": "blog_development",
 }
 ```
+
+## 使用 next 内置的 babel 运行 src/index.js
+
+1. 将 src/下的 ts,tsx 编译成 js 代码
+
+```javascript
+npx babel ./src --out-dir dist --extensions ".ts,.tsx"
+```
+
+2. 解决报错
+   配置 babelrc 文件，解决报错信息
+
+```javascript
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ]
+  ]
+}
+
+```
+
+3. 修改 ormconfig.json 中的 entities
+   只有将这里修改成.js 文件，才能使用 node 进行执行。否则始终执行的是 src/ts 文件。
+
+```javascript
+  "entities": [
+    "dist/entity/**/*.js"
+  ],
+```
+
+4. 使用 node.js 运行 dist/index.js
+   每次运行前，需要使用 npx 进行 babel 转换一下
+
+```javascript
+npx babel ./src --out-dir dist --extensions ".ts,.tsx"
+node dist/index.js
+```
