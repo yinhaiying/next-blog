@@ -134,3 +134,11 @@ node dist/index.js
 ```javascript
 npx typeorm migration:create -n CreatePost
 ```
+
+## 合并 package.json 中 script 的多个命令
+
+```javascript
+yarn add concurrently -D   // 安装
+"dev": "concurrently \"next dev\"  \"babel -w ./src --out-dir dist --extensions .ts,.tsx\"",   // 使用
+```
+使用时，只需要在前面添加concurrently，然后命令需要使用双引号包裹，同时命令之间用空格隔开。
