@@ -173,3 +173,19 @@ export class Post {
   content: string;
 }
 ```
+
+## 使用 manager 操作实体
+
+实体类和对象分别对应于数据表和数据行
+
+```javascript
+const posts = await connection.manager.find(Post);
+console.log(posts);
+const p = new Post();
+p.title = "第一篇博客";
+p.content = "我的第一篇博客";
+await connection.manager.save(p);
+const post2 = await connection.manager.find(Post);
+console.log(post2);
+connection.close();
+```
