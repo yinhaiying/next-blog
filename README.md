@@ -6,6 +6,13 @@
 docker run -v "blog-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
 ```
 
+## 如何关闭之前的容器
+```
+docker ps 查看容器
+docker kill 容器id
+dockr rm 容器id
+```
+
 ## 验证 pg
 
 - 进入 docker 容器
@@ -34,6 +41,11 @@ psql -U blog -W
 CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
 CREATE DATABASE blog_test ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
 CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+```
+
+## 删除数据库
+```javascript
+drop database +数据库名
 ```
 
 ## [安装 typeorm](https://github.com/typeorm/typeorm)
@@ -132,8 +144,41 @@ node dist/index.js
 ## typeorm 进行表的创建
 
 ```javascript
-npx typeorm migration:create -n CreatePost
+npx typeorm migration:create -n CreateXX
+
+// 示例 如果我们想要创建一个Users表
+npx typeorm migration:create -n CreateUsers
+
 ```
+## 编写migration，定义表中数据类型
+```javascript
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
+
+export class CreateUsers1595374863122 implements MigrationInterface {
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.createTable(new Table({
+      name: 'users',
+      columns: [
+        { name: 'id', type: 'int', isGenerated: true, generationStrategy: 'increment', isPrimary: true },
+        { name: 'username', type: 'varchar' },
+        { name: 'password_digest', type: 'varchar' }
+      ]
+    }
+    ))
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.dropTable('users')
+  }
+
+}
+```
+然后运行：
+```javascript
+npx typeorm migration:run
+```
+
 
 ## 合并 package.json 中 script 的多个命令
 
@@ -220,3 +265,7 @@ export class Post {
   }
 }
 ```
+
+## 增删改查的实现
+
+##
