@@ -8,4 +8,8 @@ export class Post {
   title: string;
   @Column('text')
   content: string;
+  // Partial表示不需要Post的所有数据
+  constructor(attributes: Partial<Post>) {
+    Object.assign(this, attributes)
+  }
 }

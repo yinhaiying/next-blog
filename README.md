@@ -189,3 +189,34 @@ const post2 = await connection.manager.find(Post);
 console.log(post2);
 connection.close();
 ```
+
+## 使用seed填充数据
+```javascript
+createConnection().then(async connection => {
+  const posts = await connection.manager.find(Post);
+  console.log('posts:', posts)
+  if (posts.length === 0) {
+    // seed脚本创建数据
+    await connection.manager.save([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => {
+      return new Post({ title: `Post${n}`, content: `我的第 ${n}篇文章` })
+    }));
+  }
+  connection.close();
+}).catch(error => console.log(error));
+
+```
+这里需要注意的是，我们在创建数据时，修改了post实体：
+```javascript
+export class Post {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+  @Column('varchar')
+  title: string;
+  @Column('text')
+  content: string;
+  // Partial表示不需要Post的所有数据
+  constructor(attributes: Partial<Post>) {
+    Object.assign(this, attributes)
+  }
+}
+```
