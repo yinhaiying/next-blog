@@ -128,3 +128,9 @@ npx babel ./src --out-dir dist --extensions ".ts,.tsx"
 npx babel ./src --out-dir dist --extensions ".ts,.tsx"
 node dist/index.js
 ```
+
+## typeorm 进行表的创建
+
+```javascript
+npx typeorm migration:create -n CreatePost
+```
