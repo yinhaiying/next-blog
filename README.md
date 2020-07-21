@@ -141,4 +141,35 @@ npx typeorm migration:create -n CreatePost
 yarn add concurrently -D   // 安装
 "dev": "concurrently \"next dev\"  \"babel -w ./src --out-dir dist --extensions .ts,.tsx\"",   // 使用
 ```
-使用时，只需要在前面添加concurrently，然后命令需要使用双引号包裹，同时命令之间用空格隔开。
+
+使用时，只需要在前面添加 concurrently，然后命令需要使用双引号包裹，同时命令之间用空格隔开。
+
+## 创建实例来操作数据
+
+```javascript
+typeorm entity:create -n + 要操作表的类
+// 示例
+typeorm entity:create -n Post    // 表示用Post类来操作posts表
+```
+
+将其添加到命令行
+
+```javascript
+"entity:create": "typeorm entity:create"
+```
+
+将数据映射到实体(Entity,即一个实际的类)
+
+```javascript
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity("posts")
+export class Post {
+  @PrimaryGeneratedColumn("increment")
+  id: number;
+  @Column("varchar")
+  title: string;
+  @Column("text")
+  content: string;
+}
+```
