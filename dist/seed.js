@@ -52,8 +52,9 @@ var _Comment = require("./entity/Comment");
 
           case 19:
             connection.close();
+            console.log('seed填充数据完毕');
 
-          case 20:
+          case 21:
           case "end":
             return _context.stop();
         }

@@ -25,4 +25,5 @@ createConnection().then(async connection => {
   c1.post = p1;
   await manager.save(c1);
   connection.close();
+  console.log('seed填充数据完毕');
 }).catch(error => console.log(error));

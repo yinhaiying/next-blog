@@ -1,29 +1,26 @@
 # 使用 next.js 和 typeorm 搭建 blog
 
+
+## 清空之前的开发环境
+```
+docker ps 查看容器
+docker kill 容器id
+// 清空数据
+docker container prune
+docker volume rm blog-data
+```
 ## 使用 docker 启动数据库
 
 ```javascript
 docker run -v "blog-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
 ```
 
-## 如何关闭之前的容器
-```
-docker ps 查看容器
-docker kill 容器id
-dockr rm 容器id
-```
+## 进入 docker 容器
 
-## 验证 pg
-
-- 进入 docker 容器
+- 进入 docker 容器和进入 pg 命令行
 
 ```javascript
 docker exec -it 容器id bash
-```
-
-- 进入 pg 命令行
-
-```javascript
 psql -U blog -W
 ```
 
@@ -391,4 +388,12 @@ createConnection().then(async connection => {
   await manager.save(c1);
   connection.close();
 }).catch(error => console.log(error));
+```
+
+## 再次运行数据库
+如果数据库中已经创建好migration和entity，这时候只需要运行如下代码即可。
+
+```javascript
+typeorm migration:run
+node dist/seed.js
 ```
