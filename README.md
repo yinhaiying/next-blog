@@ -268,4 +268,34 @@ export class Post {
 
 ## 增删改查的实现
 
-##
+## 创建数据表
+```javascript
+npx typeorm migration:create -n CreateUsers
+npx typeorm migration:create -n CreatePosts
+npx typeorm migration:create -n CreateComments
+```
+## 编写migration，定义表中数据类型
+```javascript
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
+export class CreateUsers1595374863122 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.createTable(new Table({
+      name: 'users',
+      columns: [
+        { name: 'id', type: 'int', isGenerated: true, generationStrategy: 'increment', isPrimary: true },
+        { name: 'username', type: 'varchar' },
+        { name: 'password_digest', type: 'varchar' }
+      ]
+    }
+    ))
+  }
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.dropTable('users')
+  }
+}
+```
+然后运行,实现表的创建：
+```javascript
+npx typeorm migration:run
+```
+
