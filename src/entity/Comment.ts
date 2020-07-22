@@ -7,9 +7,9 @@ export class Comment {
   id: number;
   @Column('text')
   content: string;
-  @CreateDateColumn('time')
+  @CreateDateColumn({type:'timestamp'})
   createdAt: Date;
-  @UpdateDateColumn('time')
+  @UpdateDateColumn({type:'timestamp'})
   updatedAt: Date;
   @ManyToOne(type => User, user => user.comments)
   user: User;
