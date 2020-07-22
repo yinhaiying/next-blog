@@ -358,3 +358,11 @@ npx typeorm migration:run
 ```javascript
 \d comments;  // 查看comments表的数据结构
 ```
+
+
+## 创建实体
+```javascript
+npx typeorm entity:create -n User
+npx typeorm entity:create -n Post
+npx typeorm entity:create -n Comment
+```
