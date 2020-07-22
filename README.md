@@ -299,3 +299,62 @@ export class CreateUsers1595374863122 implements MigrationInterface {
 npx typeorm migration:run
 ```
 
+## 给数据表新增创建时间和修改时间字段
+```javascript
+npx typeorm migration:create -n AddCreatedAtAndUpdatedAt
+
+```
+## 增加字段
+```javascript
+
+import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
+
+export class AddCreatedAtAndUpdatedAt1595376508841 implements MigrationInterface {
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.addColumns('users', [
+      new TableColumn(
+        { name: 'createdAt', type: "datetime", isNullable: false, default: 'now()' }
+      ),
+      new TableColumn(
+        { name: 'updatedAt', type: "datetime", isNullable: false, default: 'now()' }
+      ),
+    ])
+    queryRunner.addColumns('posts', [
+      new TableColumn(
+        { name: 'createdAt', type: "datetime", isNullable: false, default: 'now()' }
+      ),
+      new TableColumn(
+        { name: 'updatedAt', type: "datetime", isNullable: false, default: 'now()' }
+      ),
+    ])
+    queryRunner.addColumns('comments', [
+      new TableColumn(
+        { name: 'createdAt', type: "datetime", isNullable: false, default: 'now()' }
+      ),
+      new TableColumn(
+        { name: 'updatedAt', type: "datetime", isNullable: false, default: 'now()' }
+      ),
+    ])
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.dropColumn('users', 'createdAt');
+    queryRunner.dropColumn('users', 'updatedAt');
+    queryRunner.dropColumn('posts', 'createdAt');
+    queryRunner.dropColumn('posts', 'updatedAt');
+    queryRunner.dropColumn('comments', 'createdAt');
+    queryRunner.dropColumn('comments', 'updatedAt');
+  }
+}
+
+```
+然后运行,
+```javascript
+npx typeorm migration:run
+```
+
+## 查看表结构
+```javascript
+\d comments;  // 查看comments表的数据结构
+```
