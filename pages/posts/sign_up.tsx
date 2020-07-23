@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useState, useCallback } from 'react'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
+import { AxiosError } from 'axios'
 const SignUp: NextPage = () => {
 
   const [formData, setFormData] = useState({
@@ -8,15 +9,35 @@ const SignUp: NextPage = () => {
     password: '',
     passwordConfirmation: ''
   })
+  const [errors, setErrors] = useState({
+    username: [],
+    password: [],
+    passwordConfirmation: []
+  })
   const onSubmit = useCallback((e) => {
     e.preventDefault();
     console.log(formData)
     axios.post('/api/v1/users', formData)
+      .then((res) => {
+
+      }).catch((error) => {
+        // console.log('error:', error.response);
+        if (error.response) {
+          const response: AxiosResponse = error.response;
+          if (response.status === 422) {
+            setErrors({ ...errors, ...response.data });
+          }
+        }
+        
+      })
   }, [formData])
   return (
     <>
       <h1>注册</h1>
       {JSON.stringify(formData)}
+      <hr />
+      {JSON.stringify(errors)}
+      <hr />
       <form onSubmit={onSubmit}>
         <div>
           <label>用户名
@@ -25,6 +46,10 @@ const SignUp: NextPage = () => {
             username: e.target.value
           })} />
           </label>
+          {
+            errors.username && errors.username.length > 0 ?
+              <div>{errors.username.join(' ')}</div> : null
+          }
         </div>
         <div>
           <label>密码
@@ -33,6 +58,10 @@ const SignUp: NextPage = () => {
             password: e.target.value
           })} />
           </label>
+          {
+            errors.password && errors.password.length > 0 ?
+              <div>{errors.password.join(' ')}</div> : null
+          }
         </div>
         <div>
           <label>确认密码
@@ -41,6 +70,10 @@ const SignUp: NextPage = () => {
             passwordConfirmation: e.target.value
           })} />
           </label>
+          {
+            errors.passwordConfirmation && errors.passwordConfirmation.length > 0 ?
+              <div>{errors.passwordConfirmation.join(' ')}</div> : null
+          }
         </div>
         <div>
           <button type="submit">注册</button>
