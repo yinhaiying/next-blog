@@ -397,3 +397,38 @@ createConnection().then(async connection => {
 typeorm migration:run
 node dist/seed.js
 ```
+
+## react编写注册组件
+1. useState
+   useState不会自动合并所有数据，因此我们使用useState的时候需要将之前的数据复制过来。
+```javascript
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    passwordConfirmation: ''
+  })
+  <div>
+    <label>用户名
+      <input value={formData.username} onChange={e => setFormData({
+      ...formData,
+      username: e.target.value
+    })} />
+    </label>
+  </div>
+
+```
+2. useCallBack
+useCallback 的目的是在于缓存函数，这样方便配合上子组件的 shouldComponentUpdate 或者 React.memo 起到减少不必要的渲染的作用。
+useCallback第二个参数如果为空，表示函数只执行一次。以后数据更新都不会重新执行。
+所以如果你的函数不依赖与数据的变化，那么第二个参数可以为空,示例：
+```javascript
+const onSubmit = useCallback(() => {
+   ...
+},[])
+  ```
+但是如果你的函数依赖于数据的变化，可以将第二个参数设置成依赖的数据。
+  ```javascript
+const onSubmit = useCallback(() => {
+   ...
+},[formData])
+  ```
