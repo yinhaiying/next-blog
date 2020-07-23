@@ -16,24 +16,16 @@ const create = () => {
 
 // 创建一个connection
 const connection = (async function () {
-  console.log('创建connection')
+
   const manager = getConnectionManager();
-  const hasDefaultConnection = manager.has('default');
-  if (!hasDefaultConnection) {
-    return await create();
-  } else {
-    const current = manager.get('default');
-    // 判断复用的connection是否被关闭
-    if (current.isConnected) {
-      return current;
-    } else {
-      return await create();
-    }
+  const current = manager.has('default') && manager.get('default');
+  if (current && current.isConnected) {
+    await current.close();
   }
+  return await create();
 })()
 
 export const getDatabaseConnection = async () => {
-  console.log('获取connection1');
   // 始终返回的是同一个connection
   return connection;
 }
