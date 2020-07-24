@@ -28,7 +28,7 @@ const SignUp: NextPage = () => {
             setErrors({ ...errors, ...response.data });
           }
         }
-        
+        console.log(error)
       })
   }, [formData])
   return (
