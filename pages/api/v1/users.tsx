@@ -1,6 +1,7 @@
 import { NextApiHandler } from 'next';
 import { getDatabaseConnection } from 'lib/getDataBaseConnection';
 import { User } from '../../../src/entity/User';
+import md5 from 'md5'
 const Posts: NextApiHandler = async (req, res) => {
   const { username, password, passwordConfirmation } = req.body;
 
@@ -14,8 +15,8 @@ const Posts: NextApiHandler = async (req, res) => {
     errors.username.push('用户名不能为空');
   } else if (!/[_a-zA-Z0-9]/g.test(username.trim())) {
     errors.username.push('用户名格式不合法');
-  } else if (username.trim().length < 6 || username.trim().length > 30) {
-    errors.username.push('用户名长度为6-30之间');
+  } else if (username.trim().length < 5 || username.trim().length > 30) {
+    errors.username.push('用户名长度为5-30之间');
   }
   // 校验password
   if (password === '') {
@@ -28,14 +29,28 @@ const Posts: NextApiHandler = async (req, res) => {
     errors.passwordConfirmation.push('密码不匹配')
   }
   const hasErrors = Object.values(errors).find(value => value.length > 0);
+  res.setHeader('Content-Type', 'application/json;charset=utf-8');
   if (hasErrors) {
     res.statusCode = 422;
-    res.setHeader('Content-Type', 'application/json');
     res.write(JSON.stringify(errors));
-    res.end();
   } else {
-
+    // 连接数据库保存数据
+    const connection = await getDatabaseConnection();
+    const user = new User();
+    user.username = username.trim();
+    user.passwordDigest = md5(password);
+    await connection.manager.save(user);
+    res.statusCode = 200;
+    const result = {
+      code: 0,
+      data: {
+        username: user.username
+      },
+      message: 'ok'
+    }
+    res.write(JSON.stringify(result));
   }
 
+  res.end();
 };
 export default Posts;

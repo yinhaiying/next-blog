@@ -34,10 +34,6 @@ const SignUp: NextPage = () => {
   return (
     <>
       <h1>注册</h1>
-      {JSON.stringify(formData)}
-      <hr />
-      {JSON.stringify(errors)}
-      <hr />
       <form onSubmit={onSubmit}>
         <div>
           <label>用户名
