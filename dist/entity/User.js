@@ -29,7 +29,7 @@ var _Post = require("./Post");
 
 var _Comment = require("./Comment");
 
-var _getDatabaseConnection = require("./../../lib/getDatabaseConnection");
+var _getDatabaseConnection = require("../../lib/getDatabaseConnection");
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
 

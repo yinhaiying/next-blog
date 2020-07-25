@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from "typeorm";
 import { User } from './User'
 import { Comment } from './Comment'
-import postsShow from './../../pages/posts/[id]';
+import postsShow from '../../pages/posts/[id]';
 @Entity('posts')
 export class Post {
   @PrimaryGeneratedColumn('increment')
@@ -12,9 +12,9 @@ export class Post {
   content: string;
   @Column('int')
   authorId: number;
-  @CreateDateColumn({type:'timestamp'})
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
-  @UpdateDateColumn({type:'timestamp'})
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
   @ManyToOne(type => User, user => user.posts)
   author: User;

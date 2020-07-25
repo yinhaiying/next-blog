@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from "typeorm";
 import { Post } from './Post'
 import { Comment } from './Comment'
-import { getDatabaseConnection } from './../../lib/getDatabaseConnection';
+import { getDatabaseConnection } from '../../lib/getDatabaseConnection';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('increment')

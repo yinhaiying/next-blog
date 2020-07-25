@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { UAParser } from 'ua-parser-js';
 import { useEffect, useState } from 'react';
-import { getDatabaseConnection } from 'lib/getDataBaseConnection';
+import { getDatabaseConnection } from 'lib/getDatabaseConnection';
 import { Post } from '../src/entity/Post';
 import Link from 'next/link'
 type Props = {

@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import { getDatabaseConnection } from 'lib/getDataBaseConnection';
+import { getDatabaseConnection } from 'lib/getDatabaseConnection';
 import { User } from '../../../src/entity/User';
 import md5 from 'md5'
 const Posts: NextApiHandler = async (req, res) => {
