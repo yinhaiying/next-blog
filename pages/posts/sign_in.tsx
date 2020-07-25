@@ -19,7 +19,6 @@ const SignUp: NextPage = () => {
     axios.post('/api/v1/sessions', formData)
       .then((res) => {
         window.alert('登录成功');
-        window.location.href = "/sign_in"
       }).catch((error) => {
         // console.log('error:', error.response);
         if (error.response) {
