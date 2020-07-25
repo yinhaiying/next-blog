@@ -144,6 +144,7 @@ var User = (_dec = (0, _typeorm.Entity)('users'), _dec2 = (0, _typeorm.PrimaryGe
   }, {
     key: "hasErrors",
     value: function hasErrors() {
+      console.log('errors:', this.errors);
       return !!Object.values(this.errors).find(function (value) {
         return value.length > 0;
       });
