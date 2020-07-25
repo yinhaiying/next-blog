@@ -26,10 +26,9 @@ const SignUp: NextPage = () => {
           const response: AxiosResponse = error.response;
           if (response.status === 422) {
             // setErrors({ ...errors, ...response.data.errors });
-            setErrors({ ...response.data.errors });   // 每次只获取最新的errors
+            setErrors({ ...response.data });   // 每次只获取最新的errors
           }
         }
-        console.log(error)
       })
   }, [formData])
   return (

@@ -52,7 +52,6 @@ export class User {
     }
   };
   hasErrors() {
-    console.log('errors:', this.errors)
     return !!Object.values(this.errors).find(value => value.length > 0);
   };
   // 在save之前插入
