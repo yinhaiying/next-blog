@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn, BeforeInsert } from "typeorm";
 import { Post } from './Post'
 import { Comment } from './Comment'
 import { getDatabaseConnection } from '../../lib/getDatabaseConnection';
+import md5 from 'md5'
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('increment')
@@ -52,5 +53,15 @@ export class User {
   hasErrors() {
     console.log('errors:', this.errors)
     return !!Object.values(this.errors).find(value => value.length > 0);
+  };
+  // 在save之前插入
+  @BeforeInsert()
+  generatePasswordDigest() {
+    this.passwordDigest = md5(this.password);
+  }
+  @BeforeInsert()
+  setCreatedTime() {
+    this.createdAt = new Date();
+    this.createdAt = new Date();
   }
 }
