@@ -68,55 +68,34 @@ var User = (_dec = (0, _typeorm.Entity)('users'), _dec2 = (0, _typeorm.PrimaryGe
     key: "validate",
     value: function () {
       var _validate = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        var found;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this.username.trim().length === 0)) {
-                  _context.next = 4;
-                  break;
-                }
-
-                this.errors.username.push('用户名不能为空');
-                _context.next = 16;
-                break;
-
-              case 4:
-                if (/[_a-zA-Z0-9]/g.test(this.username.trim())) {
-                  _context.next = 8;
-                  break;
-                }
-
-                this.errors.username.push('用户名格式不合法');
-                _context.next = 16;
-                break;
-
-              case 8:
-                if (!(this.username.trim().length < 5 || this.username.trim().length > 30)) {
-                  _context.next = 12;
-                  break;
-                }
-
-                this.errors.username.push('用户名长度为5-30之间');
-                _context.next = 16;
-                break;
-
-              case 12:
-                _context.next = 14;
+                _context.next = 2;
                 return (0, _getDatabaseConnection.getDatabaseConnection)();
 
-              case 14:
-                if (!_context.sent.manager.find(User, {
+              case 2:
+                _context.next = 4;
+                return _context.sent.manager.find(User, {
                   username: this.username
-                })) {
-                  _context.next = 16;
-                  break;
-                }
+                });
 
-                this.errors.username.push('用户名已存在');
+              case 4:
+                found = _context.sent;
 
-              case 16:
-                // 校验password
+                if (this.username.trim().length === 0) {
+                  this.errors.username.push('用户名不能为空');
+                } else if (!/[_a-zA-Z0-9]/g.test(this.username.trim())) {
+                  this.errors.username.push('用户名格式不合法');
+                } else if (this.username.trim().length < 5 || this.username.trim().length > 30) {
+                  this.errors.username.push('用户名长度为5-30之间');
+                } else if (found.length > 0) {
+                  this.errors.username.push('用户名已存在');
+                } // 校验password
+
+
                 if (this.password === '') {
                   this.errors.password.push('密码不能为空');
                 } else if (this.password.length < 6) {
@@ -127,7 +106,7 @@ var User = (_dec = (0, _typeorm.Entity)('users'), _dec2 = (0, _typeorm.PrimaryGe
                   this.errors.passwordConfirmation.push('密码不匹配');
                 }
 
-              case 18:
+              case 8:
               case "end":
                 return _context.stop();
             }

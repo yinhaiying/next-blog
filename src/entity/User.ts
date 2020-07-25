@@ -27,15 +27,16 @@ export class User {
   password: string;
   passwordConfirmation: string;
   async validate() {
+    // found返回的是一个promise
+    const found = await (await getDatabaseConnection()).manager.find(
+      User, { username: this.username });
     if (this.username.trim().length === 0) {
       this.errors.username.push('用户名不能为空');
     } else if (!/[_a-zA-Z0-9]/g.test(this.username.trim())) {
       this.errors.username.push('用户名格式不合法');
     } else if (this.username.trim().length < 5 || this.username.trim().length > 30) {
       this.errors.username.push('用户名长度为5-30之间');
-    } else if ((await getDatabaseConnection()).manager.find(
-      User, { username: this.username })
-    ) {
+    } else if (found.length > 0) {
       this.errors.username.push('用户名已存在');
     }
     // 校验password
