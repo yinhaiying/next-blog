@@ -3,6 +3,7 @@ import { Post } from './Post'
 import { Comment } from './Comment'
 import { getDatabaseConnection } from '../../lib/getDatabaseConnection';
 import md5 from 'md5'
+import _ from 'lodash'
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('increment')
@@ -63,5 +64,8 @@ export class User {
   setCreatedTime() {
     this.createdAt = new Date();
     this.createdAt = new Date();
+  }
+  toJSON() {
+    return _.omit(this, ['password', 'passwordDigest', 'passwordConfirmation', 'updatedAt', 'errors'])
   }
 }

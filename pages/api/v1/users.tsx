@@ -19,14 +19,7 @@ const Posts: NextApiHandler = async (req, res) => {
   } else {
     await connection.manager.save(user);
     res.statusCode = 200;
-    const result = {
-      code: 0,
-      data: {
-        username: user.username
-      },
-      message: 'ok'
-    }
-    res.write(JSON.stringify(result));
+    res.write(JSON.stringify(user));
   }
 
   res.end();

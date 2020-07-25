@@ -1129,6 +1129,11 @@
   resolved "https://registry.npm.taobao.org/@types/color-name/download/@types/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha1-HBJhu+qhCoBVu8XYq4S3sq/IRqA=
 
+"@types/lodash@^4.14.158":
+  version "4.14.158"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.158.tgz#b38ea8b6fe799acd076d7a8d7ab71c26ef77f785"
+  integrity sha512-InCEXJNTv/59yO4VSfuvNrZHt7eeNtWQEgnieIA+mIC+MOWM9arOWG2eQ8Vhk6NbOre6/BidiXhkZYeDY9U35w==
+
 "@types/marked@^0.7.4":
   version "0.7.4"
   resolved "https://registry.npm.taobao.org/@types/marked/download/@types/marked-0.7.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fmarked%2Fdownload%2F%40types%2Fmarked-0.7.4.tgz#607685669bb1bbde2300bc58ba43486cbbee1f0a"
@@ -3696,6 +3701,11 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npm.taobao.org/lodash.uniq/download/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
+
+lodash@^4.14.1:
+  version "4.14.1"
+  resolved "https://registry.npmjs.org/lodash/-/lodash-4.14.1.tgz#5b5d0a516ad3d46e12012d7f59ad66a5659bf408"
+  integrity sha1-W10KUWrT1G4SAS1/Wa1mpWWb9Ag=
 
 lodash@^4.17.11, lodash@^4.17.13:
   version "4.17.15"
