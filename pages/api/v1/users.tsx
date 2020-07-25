@@ -4,7 +4,7 @@ import { User } from '../../../src/entity/User';
 import md5 from 'md5'
 const Posts: NextApiHandler = async (req, res) => {
   const { username, password, passwordConfirmation } = req.body;
-
+  const connection = await getDatabaseConnection();
   // 首先校验数据
   const errors = {
     username: [] as string[],
@@ -17,6 +17,8 @@ const Posts: NextApiHandler = async (req, res) => {
     errors.username.push('用户名格式不合法');
   } else if (username.trim().length < 5 || username.trim().length > 30) {
     errors.username.push('用户名长度为5-30之间');
+  } else if (connection.manager.find(User, { username })) {
+    errors.username.push('用户名已存在');
   }
   // 校验password
   if (password === '') {
@@ -35,7 +37,6 @@ const Posts: NextApiHandler = async (req, res) => {
     res.write(JSON.stringify(errors));
   } else {
     // 连接数据库保存数据
-    const connection = await getDatabaseConnection();
     const user = new User();
     user.username = username.trim();
     user.passwordDigest = md5(password);
