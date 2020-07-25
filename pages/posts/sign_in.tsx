@@ -7,26 +7,26 @@ const SignUp: NextPage = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    passwordConfirmation: ''
   })
   const [errors, setErrors] = useState({
     username: [],
     password: [],
-    passwordConfirmation: []
   })
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    console.log(formData)
-    axios.post('/api/v1/users', formData)
+    // setErrors({ username: [], password: [] })   // 这里进行清空errors不会马上跟新，hooks所有变量在下一个render才会更新
+    // console.log(errors)
+    axios.post('/api/v1/sessions', formData)
       .then((res) => {
-        window.alert('注册成功');
-        window.location.href = "/posts/sign_in"
+        window.alert('登录成功');
+        window.location.href = "/sign_in"
       }).catch((error) => {
         // console.log('error:', error.response);
         if (error.response) {
           const response: AxiosResponse = error.response;
           if (response.status === 422) {
-            setErrors({ ...response.data });
+            // setErrors({ ...errors, ...response.data.errors });
+            setErrors({ ...response.data.errors });   // 每次只获取最新的errors
           }
         }
         console.log(error)
@@ -34,7 +34,7 @@ const SignUp: NextPage = () => {
   }, [formData])
   return (
     <>
-      <h1>注册</h1>
+      <h1>登录</h1>
       <form onSubmit={onSubmit}>
         <div>
           <label>用户名
@@ -61,19 +61,7 @@ const SignUp: NextPage = () => {
           }
         </div>
         <div>
-          <label>确认密码
-            <input type="password" value={formData.passwordConfirmation} onChange={e => setFormData({
-            ...formData,
-            passwordConfirmation: e.target.value
-          })} />
-          </label>
-          {
-            errors.passwordConfirmation && errors.passwordConfirmation.length > 0 ?
-              <div>{errors.passwordConfirmation.join(' ')}</div> : null
-          }
-        </div>
-        <div>
-          <button type="submit">注册</button>
+          <button type="submit">登录</button>
         </div>
       </form>
     </>
