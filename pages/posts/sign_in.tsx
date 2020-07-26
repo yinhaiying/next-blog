@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps<any, { id: string }> = withS
   console.log('session:', user)
   return {
     props: {
-      user: user
+      user: null
     }
   };
 });
