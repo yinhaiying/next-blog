@@ -6,8 +6,7 @@ import md5 from 'md5'
 import { SignIn } from './../../../src/model/SignIn';
 const Session: NextApiHandler = async (req, res) => {
   const { username, password } = req.body;
-  // @ts-ignore
-  console.log('session:', req.session)
+  // console.log('session:', req.session.set())
   const connection = await getDatabaseConnection();
   res.setHeader('Content-Type', 'application/json;charset=utf-8');
   const signIn = new SignIn();

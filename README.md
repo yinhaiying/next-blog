@@ -432,3 +432,17 @@ const onSubmit = useCallback(() => {
    ...
 },[formData])
   ```
+
+## 扩展第三方npm包的接口参数
+比如有个next包的nextAPI只有两个参数，但是我们想要添加一个参数，这时候就需要进行扩展：
+```javascript
+import * as Next from 'next';   // 必须引入。不然之前的所有接口属性都会被覆盖
+import { NextApiRequest } from 'next';
+import { Session } from 'next-iron-session';
+declare module 'next' {
+  interface NextApiRequest {
+    session: Session
+  }
+}
+
+```
