@@ -446,3 +446,14 @@ declare module 'next' {
 }
 
 ```
+
+## 如何在代码中隐藏密码和秘钥
+1.创建.env.local文件，并写入秘钥
+```javascript
+SECRET=xxxxx
+```
+2. 通过process.env进行获取
+```
+process.env.SECRET读取秘钥
+```
+注意:.env.local文件不能上传到github上，否则还是会被看到。
