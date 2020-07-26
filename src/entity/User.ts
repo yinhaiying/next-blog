@@ -16,9 +16,10 @@ export class User {
   createdAt: Date;
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
-  @OneToMany(type => Post, post => post.author)
+  // @OneToMany(type => Post, post => post.author)
+  @OneToMany('Post', 'author')
   posts: Post[];
-  @OneToMany(type => Comment, comment => comment.user)
+  @OneToMany('Comment', 'user')
   comments: Comment[];
   // 没有加装饰器表示不是字段不是数据库的，但是是类的
   errors = {

@@ -463,3 +463,20 @@ process.env.SECRET读取秘钥
 如果我们不小心删除了数据库，需要重新运行yarn migration:run。这时候会出现报错：
 提示getDatabaseConnection有问题。这是因为我们在项目中运行了连接数据库，而数据库
 是不存在的，因此导致报错。可以先注释掉有getDatabaseConnection的代码。然后重新运行即可。
+
+
+## entity实体的环形依赖问题
+在Post实体中我们引用了User
+```javascript
+ @ManyToOne(type => User, user => user.posts)
+```
+在User实体中，我们引用了Post
+```javascript
+  @OneToMany(type => Post, post => post.author)
+  posts: Post[];
+```
+这样互相引用会导致环形依赖问题。即使用Post的时候会User没有初始化。因为type => User需要引入User
+解决办法是使用字符串替代：
+```javascript
+  @ManyToOne('User', 'posts')     // 环形依赖问题
+```

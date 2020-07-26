@@ -25,10 +25,6 @@ var _initializerWarningHelper2 = _interopRequireDefault(require("@babel/runtime/
 
 var _typeorm = require("typeorm");
 
-var _Post = require("./Post");
-
-var _Comment = require("./Comment");
-
 var _getDatabaseConnection = require("../../lib/getDatabaseConnection");
 
 var _md = _interopRequireDefault(require("md5"));
@@ -41,15 +37,7 @@ var User = (_dec = (0, _typeorm.Entity)('users'), _dec2 = (0, _typeorm.PrimaryGe
   type: 'timestamp'
 }), _dec6 = (0, _typeorm.UpdateDateColumn)({
   type: 'timestamp'
-}), _dec7 = (0, _typeorm.OneToMany)(function (type) {
-  return _Post.Post;
-}, function (post) {
-  return post.author;
-}), _dec8 = (0, _typeorm.OneToMany)(function (type) {
-  return _Comment.Comment;
-}, function (comment) {
-  return comment.user;
-}), _dec9 = (0, _typeorm.BeforeInsert)(), _dec10 = (0, _typeorm.BeforeInsert)(), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function () {
+}), _dec7 = (0, _typeorm.OneToMany)('Post', 'author'), _dec8 = (0, _typeorm.OneToMany)('Comment', 'user'), _dec9 = (0, _typeorm.BeforeInsert)(), _dec10 = (0, _typeorm.BeforeInsert)(), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function () {
   function User() {
     (0, _classCallCheck2.default)(this, User);
     (0, _initializerDefineProperty2.default)(this, "id", _descriptor, this);

@@ -16,8 +16,9 @@ export class Post {
   createdAt: Date;
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
-  @ManyToOne(type => User, user => user.posts)
+  // @ManyToOne(type => User, user => user.posts)
+  @ManyToOne('User', 'posts')     // 环形依赖问题
   author: User;
-  @OneToMany(type => Comment, comment => comment.post)
+  @OneToMany('Comment', 'post')
   comments: Comment[];
 }
