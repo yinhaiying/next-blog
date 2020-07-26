@@ -5,7 +5,7 @@ import { NextApiHandler } from 'next';
 export function withSession(handler: NextApiHandler) {
   return withIronSession(handler, {
     // password: process.env.SECRET_COOKIE_PASSWORD,
-    password: '23455803239063422',   // 秘钥：随机数即可
+    password: '89eb4926-debb-4d46-9293-057b956d7ff9',   // 秘钥：随机数即可
     cookieName: "blog",
     // cookieOptions: {
     //   // the next line allows to use the session in non-https environements like
