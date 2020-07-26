@@ -457,3 +457,9 @@ SECRET=xxxxx
 process.env.SECRET读取秘钥
 ```
 注意:.env.local文件不能上传到github上，否则还是会被看到。
+
+
+## yarn migration:run 报错
+如果我们不小心删除了数据库，需要重新运行yarn migration:run。这时候会出现报错：
+提示getDatabaseConnection有问题。这是因为我们在项目中运行了连接数据库，而数据库
+是不存在的，因此导致报错。可以先注释掉有getDatabaseConnection的代码。然后重新运行即可。
