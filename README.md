@@ -616,3 +616,47 @@ docker run hello-world:查看docker能否运行成功。
 usermod -a -G docker blog
 ```
 
+### 使用git clone 下载代码
+一些常用的文件命令
+```javascript
+pwd 查看当前目录
+ls -l 查看当前目录文件列表
+ls -a
+ls -la 查看带权限信息的文件列表
+
+```
+我们现在的blog用户中是没有项目的，我们需要从git中把项目下载下来。
+1. 查看是否有git命令
+```javascript
+git
+git --version
+```
+
+2. git clone 下载代码
+
+```javascript
+mkdir app
+cd app
+git clone +仓库地址
+```
+这时候可能会给你如下报错提示：
+```javascript
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+Please make sure you have the correct access rights
+```
+这个提示是因为我们linux服务器上没有设置SSH，无法从远程拉取代码。
+在服务器端生成SSH。这里千万要记住生成key时的密码。再拉取代码时需要再次输入。
+(默认密码:A)
+```javascript
+ssh-keygen -t RSA -C "18840842571@163.com"
+```
+然后把这个SSH添加到我们的github中的SSH设置中（不需要关心github已经有几个SSH了）。
+```javascript
+cat ~/.ssh/id_rsa.pub
+```
+然后重新再次运行git clone
+```javascript
+git clone +仓库地址
+```
+这样的话，以后只要远程仓库有修改，就可以通过git pull进行拉取最新的代码。
