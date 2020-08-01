@@ -4,9 +4,12 @@ import _ from 'lodash';
 type Options = {
   page: number;
   totalPage: number;
+  urlMaker?: (page: number) => string;
 }
+const defaultUrlMaker = (page: number) => `?page=${page}`
 export const usePager = (options: Options) => {
-  const { page, totalPage } = options;
+  const { page, totalPage, urlMaker } = options;
+  const _urlMaker = urlMaker || defaultUrlMaker;
   const numbers = [];
 
   numbers.push(1);           // 第一页
@@ -29,17 +32,17 @@ export const usePager = (options: Options) => {
   const pager = (
     <div className="wrapper">
       {
-        page > 1 && <Link href={`/posts/list?page=${page - 1}`}>
+        page > 1 && <Link href={_urlMaker(page - 1)}>
           <a >上一页</a>
         </Link>
       }
       {pageList.map((n) => n === -1 ?
         <span key={n}>...</span>
-        : <Link href={`/posts/list?page=${n}`} key={n}>
+        : <Link href={_urlMaker(n)} key={n}>
           <a >{n}</a></Link>
       )}
       {
-        page < totalPage && <Link href={`/posts/list?page=${page + 1}`}>
+        page < totalPage && <Link href={_urlMaker(page + 1)}>
           <a >下一页</a>
         </Link>
       }
