@@ -15,6 +15,7 @@ const New: NextPage = () => {
     axios.post('/api/v1/posts', formData)
       .then((res) => {
         window.alert('添加成功');
+        window.location.href = "/posts/list";
       }).catch((error) => {
         if (error.response) {
           const response: AxiosResponse = error.response;
