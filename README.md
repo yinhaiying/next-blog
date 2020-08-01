@@ -596,3 +596,23 @@ ssh blog@xx.xx.xxx.xx
 ```javascript
 ssh-copy-id blog@xxx.xxx.xxx.xxx
 ```
+
+
+### 安装docker
+到目前为止我们创建了blog用户，但是当前用户什么都没有，没有node,没有yarn,没有各种包。
+因此我们需要先安装docker。通常是直接安装在root目录下，然后让blog用户去使用即可。
+[安装教程](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04#:~:text=%20How%20To%20Install%20and%20Use%20Docker%20on,of%20passing%20it%20a%20chain%20of...%20More%20)
+
+
+### 查看docker是否安装成功
+```javascript
+which docker:可以查看是否能够使用docker，
+docker run hello-world:查看docker能否运行成功。
+```
+
+### 将blog添加到docker分组中
+由于blog用户权限太低了，他无权限使用root中的docker，因此，我们需要将blog用户添加到docker组中。
+```javascript
+usermod -a -G docker blog
+```
+
