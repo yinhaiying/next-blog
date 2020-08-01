@@ -20,6 +20,9 @@ const New: NextPage = () => {
           const response: AxiosResponse = error.response;
           if (response.status === 422) {
             setErrors({ ...response.data });   // 每次只获取最新的errors
+          } else if (response.status === 401) {
+            alert('请登录');
+            window.location.href = `/posts/sign_in?return_to=${encodeURIComponent(window.location.pathname)}`
           }
         }
       })
@@ -27,7 +30,6 @@ const New: NextPage = () => {
   return (
     <>
       <h2>添加博客</h2>
-      {JSON.stringify(formData)}
       <form onSubmit={onSubmit}>
         <div>
           <label >标题

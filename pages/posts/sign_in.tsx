@@ -4,9 +4,9 @@ import axios, { AxiosResponse } from 'axios'
 import { AxiosError } from 'axios'
 import { GetServerSideProps, NextPage, GetServerSidePropsContext } from 'next';
 import { withSession } from 'lib/withSession';
-import { User } from 'src/entity/User'
+import { User } from 'src/entity/User';
+import qs from 'query-string';
 const SignUp: NextPage<{ user: User }> = (props) => {
-  console.log(props.user)
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -22,6 +22,9 @@ const SignUp: NextPage<{ user: User }> = (props) => {
     axios.post('/api/v1/sessions', formData)
       .then((res) => {
         window.alert('登录成功');
+        const { return_to } = qs.parse(window.location.search);
+        console.log('return_to:', return_to)
+        window.location.href = return_to as string;
       }).catch((error) => {
         // console.log('error:', error.response);
         if (error.response) {
@@ -82,7 +85,7 @@ export const getServerSideProps: GetServerSideProps<any, { id: string }> = withS
     const user = context.req.session.get('currentUser');
     return {
       props: {
-        user: JSON.parse(JSON.stringify(user))
+        user: JSON.parse(JSON.stringify(user || ''))
       }
     };
   });

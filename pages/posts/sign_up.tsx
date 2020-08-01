@@ -16,7 +16,6 @@ const SignUp: NextPage = () => {
   })
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    console.log(formData)
     axios.post('/api/v1/users', formData)
       .then((res) => {
         window.alert('注册成功');

@@ -5,11 +5,16 @@ import { withSession } from 'lib/withSession';
 const Posts: NextApiHandler = async (req, res) => {
   if (req.method === 'POST') {
     const { title, content } = req.body;
-    console.log('title:', title)
     const post = new Post();
     post.title = title;
     post.content = content;
     const user = req.session.get('currentUser');
+    if (!user) {
+      // 如果用户不存在表示没有登录。
+      res.statusCode = 401;
+      res.end();
+      return;
+    }
     post.author = user;   // 通过关联，可以直接使用author，而不需要设置authorId
     const connection = await getDatabaseConnection();
     await connection.manager.save(post);
