@@ -6,6 +6,7 @@ import { GetServerSideProps, NextPage, GetServerSidePropsContext } from 'next';
 import { withSession } from 'lib/withSession';
 import { User } from 'src/entity/User';
 import qs from 'query-string';
+import { getParam } from 'lib/utils'
 const SignUp: NextPage<{ user: User }> = (props) => {
   const [formData, setFormData] = useState({
     username: '',
@@ -22,9 +23,8 @@ const SignUp: NextPage<{ user: User }> = (props) => {
     axios.post('/api/v1/sessions', formData)
       .then((res) => {
         window.alert('登录成功');
-        const { return_to } = qs.parse(window.location.search);
-        console.log('return_to:', return_to)
-        window.location.href = return_to as string;
+        const return_to = getParam(window.location.search, 'return_to');
+        window.location.href = return_to;
       }).catch((error) => {
         // console.log('error:', error.response);
         if (error.response) {
