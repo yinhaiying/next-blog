@@ -480,3 +480,86 @@ process.env.SECRET读取秘钥
 ```javascript
   @ManyToOne('User', 'posts')     // 环形依赖问题
 ```
+
+## 部署到阿里云（非常重要）
+
+### Docker化前的准备工作，确保代码正常运行，页面展示正常
+```
+yarn build 进行上线前的打包，确保没有错误
+yarn start 查看打包后的网页，
+
+```
+每次有修改时需要重新build
+
+### Docker话你的应用
+[参考文档](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
+
+1. 使用`touch Dockerfile`命令创建一个空的docker文件（进入文件目录）
+注意在windows上最好使用bash工具进行创建，否则可能无法识别touch命令
+```javascript
+touch Dockerfile
+```
+2. 打开Dockerfile文件，编写一下代码，设置你想要使用的node版本
+```javascript
+FROM node:12
+```
+
+3. 设置你代码存放的位置
+```javascript
+
+# Create app directory
+WORKDIR /usr/src/app
+
+```
+4. 把我们的文件拷贝到linux上的工作目录了。根据你的包管理器，设置package.json和package.lock.json。如果你是使用yarn,需要拷贝yarn.lock。
+```javascript
+COPY package.json ./
+COPY yarn.lock ./
+
+```
+5. 在Linux上安装生产环境需要的包
+```javascript
+// Run npm install  使用npm包管理器
+Run yarn intall    // 使用yarn包管理器
+```
+
+6. 把我们的源码拷贝到Linux的对应的位置。其中COPY表示从本地拷贝到云服务器。
+
+```javascript
+COPY . .
+```
+7. 设置端口：
+```javascript
+EXPOSE 3000
+```
+8. 定义生产环境启动运行的命令.这里我们运行的命令是yarn start
+```javascript
+CMD [ "yarn", "start" ]
+```
+
+9. 创建.dockerignore文件忽略将node_modules等文件拷贝到docker中。然后在.dockerignore中写入如下代码：
+```javascript
+node_modules
+*.log
+```
+
+10. 在命令行中输入以下命令构建属于自己的docker镜像
+```javascript
+// docker build -t <your username>/node-web-app .
+docker build -t haiying/node-web-app .
+```
+
+11. 运行刚刚创建的镜像
+```javacript
+docker run -p 3000:3000 -d haiying/node-web-app
+```
+
+12 .测试是否能够正常访问
+```javascript
+docker ps -a // 查看端口是否运行正常
+
+```
+在浏览器中输入http://192.168.99.100:3000/或者localhost:3000看看能否正常展示（我们上一步运行docker其中有一步就是yarn start，因此如果一切正常的话页面是能够正常访问的）ps:如果是使用旧版的docker这里的host是docker对应的host。如果碰到问题，可以使用docker logs查看错误。
+
+
+
