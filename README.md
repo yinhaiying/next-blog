@@ -562,4 +562,37 @@ docker ps -a // 查看端口是否运行正常
 在浏览器中输入http://192.168.99.100:3000/或者localhost:3000看看能否正常展示（我们上一步运行docker其中有一步就是yarn start，因此如果一切正常的话页面是能够正常访问的）ps:如果是使用旧版的docker这里的host是docker对应的host。如果碰到问题，可以使用docker logs查看错误。
 
 
+## 阿里云的设置（非常重要）
 
+### 购买
+
+###  登录
+1. 每次都使用密码登录
+```javascript
+ssh root@xxx.xxx.xxx.xxx
+
+```
+2. 上传SSH key到服务器
+通过将SSH key上传到服务器这样的话我们就不需要每次登陆都输入密码了。
+```javascript
+ssh-copy-id root@xxx.xxx.xxx.xxx
+```
+
+### 为应用单独创建user而不是使用root
+1. 创建blog用户
+```javascript
+adduser blog   // 创建一个blog用户
+```
+2. 切换blog用户
+```javascript
+su - blog   // blog@haiying:~$   我们可以通过 pwd查看blog所在的目录
+```
+
+### 直接登录到blog用户
+```javascript
+ssh blog@xx.xx.xxx.xx
+```
+同样为了避免输入密码，我们把ssh key上传到blog用户对应的目录中
+```javascript
+ssh-copy-id blog@xxx.xxx.xxx.xxx
+```
