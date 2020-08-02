@@ -1,39 +1,53 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { UAParser } from 'ua-parser-js';
-import { useEffect, useState } from 'react';
-import { getDatabaseConnection } from 'lib/getDatabaseConnection';
-import { Post } from '../src/entity/Post';
-import Link from 'next/link'
-type Props = {
-  posts: Post[],
-}
-const index: NextPage<Props> = (props) => {
-
-  const { posts } = props;
-  console.log(posts)
+import { NextPage } from 'next'
+import Link from 'next/link';
+const Index: NextPage = () => {
   return (
-    <div>
-      {
-        posts.map((post) => {
-          return (
-            <Link key={post.id} href={`/posts/${post.id}`}>
-              <a >{post.title}</a>
-            </Link>
-          )
-        })
-      }
-    </div>
-  );
-};
-export default index;
+    <>
+      <div className="cover">
+        <div className="logo">
+          <img src="/bg.jpg" alt="logo" />
+          <div className="title">
+            <h1>海鹰的个人博客</h1>
+            <h2>总有一天你会感激今天努力的自己</h2>
+          </div>
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const connection = await getDatabaseConnection();
-  const posts = await connection.manager.find(Post);
-  console.log('posts:', posts)
-  return {
-    props: {
-      posts: JSON.parse(JSON.stringify(posts))
-    }
-  };
-};
+        </div>
+        <div className="content">
+          <p><Link href="/posts/list"><a >文章列表</a></Link></p>
+        </div>
+
+      </div>
+
+
+      <style jsx>
+        {
+          `
+            .cover{
+              display:flex;
+              justify-conten:center;
+              align-items:center;
+              flex-direction:column;
+              hieght:100vh;
+
+            }
+            .cover .logo{
+              position:relative;
+            }
+            .logo img{
+              width:100%;
+            }
+            .logo .title{
+              position:absolute;
+              left:50%;
+              top:50%;
+              transform:translate(-50%,-50%);
+              text-align:center;
+            }
+          `
+        }
+      </style>
+    </>
+  )
+}
+
+export default Index;
