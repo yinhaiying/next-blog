@@ -806,4 +806,50 @@ error: database "blog_development" does not exist
 
 docker exec -it psgl容器id bash
 psql -U blog -W
-``
+
+CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+CREATE DATABASE blog_test ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+CREATE DATABASE blog_production ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+
+```
+
+13. 创建数据表
+按照在本地的方法，我们需要先运行yarn dev将ts转换成js，然后运行yarn migration:run。
+```javascript
+yarn dev
+yarn migration:run
+```
+但是我们会发现命令一直处于等待中，连接不上数据库，因为yarn migration默认会去读取本地的ormconfig.json文件，但是这个文件实际上只是用于本地的开发，我们写的各种数据库，端口等都是本地的设置，而不是生产环境的设置。
+而且这是个.json文件，无法进行环境区分。因此，我们需要修改线上的orm.config.json的配置
+然后修改host和database
+```javascript
+  "host": "localhost",
+  "database": "blog_production",
+```
+这里在运行时会报错，由于typeorm如果没有数据库，无法连接。
+因此需要注释与`getDatabaseConnection`相关的代码：
+```javascript
+import { getDatabaseConnection } from '../../lib/getDatabaseConnection';
+```
+然后重新build
+```javascript
+
+yarn dev
+yarn migration:run
+```
+14. 将3000端口加入安全策略
+这样的话，我们就可以通过xxx.xxx.xx.xx/3000端口在浏览器中进行访问了。
+
+## 部署总结：
+全部步骤：
+```javascript
+git pull
+yarn install
+yarn build
+docker ps
+docker kill xxx
+docker rm xxx
+docker run --network=host -v /home/blog/blog-data/:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
+docker run --network=host -p 3000:3000 -d haiying/node-web-app
+curl -L http://localhost:3000
+```
