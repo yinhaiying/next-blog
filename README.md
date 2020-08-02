@@ -831,6 +831,11 @@ yarn migration:run
 ```javascript
 import { getDatabaseConnection } from '../../lib/getDatabaseConnection';
 ```
+同时我们需要设置阿里云上的NDOE_ENV为production
+```javascript
+vim ~/.bashrc
+export NODE_ENV=production  // 在第一行添加
+```
 然后重新build
 ```javascript
 
@@ -852,4 +857,5 @@ docker rm xxx
 docker run --network=host -v /home/blog/blog-data/:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
 docker run --network=host -p 3000:3000 -d haiying/node-web-app
 curl -L http://localhost:3000
+docker logs xx
 ```

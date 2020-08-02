@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev\"  \"babel -w ./src --out-dir dist --extensions .ts,.tsx\"",
-    "build": "next build",
+    "build": " next build",
     "start": "next start",
     "typeorm:build": " babel -w ./src --out-dir dist --extensions .ts,.tsx",
     "migration:create": "typeorm migration:create",
@@ -29,7 +29,8 @@
     "reflect-metadata": "^0.1.13",
     "sass": "^1.26.5",
     "typeorm": "^0.2.25",
-    "ua-parser-js": "^0.7.21"
+    "ua-parser-js": "^0.7.21",
+    "next-images": "^1.4.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.10.5",
@@ -42,7 +43,6 @@
     "@types/react-dom": "^16.9.8",
     "@types/ua-parser-js": "^0.7.33",
     "concurrently": "^5.2.0",
-    "next-images": "^1.4.0",
     "typescript": "^3.9.2",
     "webpack": "^4.44.1"
   }
