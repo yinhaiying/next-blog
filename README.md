@@ -660,3 +660,97 @@ cat ~/.ssh/id_rsa.pub
 git clone +仓库地址
 ```
 这样的话，以后只要远程仓库有修改，就可以通过git pull进行拉取最新的代码。
+
+
+### 在阿里云去构建应用
+我们目前已经有了代码了，但是我们还需要在服务器上能够把代码跑起来。这需要数据库，运行docker等。
+
+### 在linux服务器上为docker配置镜像
+为了确保在阿里云上使用docker镜像下载速度，我们需要在服务器上配置好docker镜像。
+[配置方法](https://blog.csdn.net/fenglibing/article/details/92090925)
+
+1. 创建数据库的保存地址,我们将数据库不放在app里面，而是单独拿出来
+```javascript
+blog@haiying:~$  mdkir blog-data
+```
+2. 使用docker启动数据库
+```javascript
+// 老的运行方式
+// docker run -v "blog-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
+
+// 新的方式需要将数据库地址写成绝对路径  就是我们刚刚创建数据库的地方
+docker run -v /home/blog/blog-data/:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
+```
+然后运行docker ps查看端口是否运行。
+3. 然后用docker运行应用即可。注意需要切换到当前项目目录下
+```javascript
+cd app/next/blog
+docker build -t haiying/node-web-app .
+docker run -p 3000:3000 -d haiying/node-web-app
+```
+
+查看是否运行成功，这里可能会失败：
+```javascript
+docker ps       // 查看运行成功的端口
+docker ps -a    // 查看所有端口，包括运行失败的端口
+docker logs + 端口号   // 查看端口运行失败的日志
+
+```
+我们查看报错原因：
+```javascript
+ Could not find a valid build in the '/usr/src/app/.next' directory! Try building your app with 'next build' before starting the server.
+```
+这表明我们没有进行yarn build，导致服务器上的.next中没有build文件，因此，我们需要提前build好文件，然后再上传到github。再使用docker。因此，我们需要先在root安装yarn和node。
+```javascript
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install gcc g++ make
+curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+     sudo apt-get update && sudo apt-get install yarn
+```
+
+然后查看是否安装成功:
+```javascript
+which node
+which yarn
+
+```
+查看blog用户是否有权限使用node和yarn
+```javascript
+su - blog
+which  node
+which yarn
+```
+然后安装依赖和进行build
+```javascript
+cd next/blog
+yarn install
+yarn build
+```
+这时候build时会发现报错，这是因为我们github上是没有.env.local文件的，导致获取不到SECRET,但是我们又不能
+将.env.local上传到github，因此我们需要手动在服务器上创建.env.local文件并写入内容。然后再重新build。
+然后再重新创建docker应用，并且运行docker应用。
+```javascript
+docker build -t haiying/node-web-app .
+docker run -p 3000:3000 -d haiying/node-web-app
+```
+到目前为止，我们才实现在阿里云服务器上使用docker运行我们的node应用。
+但是，当我们运行curl -L http://localhost:3000时我们会发现，一直处于等待状态。
+这是因为我们的ormconfig.json文件中配置的host是我们本地的docker的host。
+```javascript
+  "host": "192.168.xx.xxx",
+```
+这会导致阿里云一直去连接这个host，从而失败。因此我们需要根据在所有使用到Host的地方根据环境来判断Host的设置。
+修改getDatabaseConnection.tsx文件。
+```javascript
+const create = () => {
+  // @ts-ignore
+  return createConnection({
+    ...config,
+    host: process.env.NODE_ENV === 'production' ? 'localhost' : config.host,
+    'entities': [Post, User, Comment]
+  })
+}
+
+```
