@@ -771,3 +771,26 @@ docker run -p 3000:3000 -d haiying/node-web-app
 curl -L http://localhost:3000
 ```
 如果出现报错：可以通过docker logs + 端口号
+
+10. 可以查看页面了，但是遇到新的问题：
+```javascript
+Error: connect ECONNREFUSED 127.0.0.1:5432
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16) {
+  errno: 'ECONNREFUSED',
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+```
+我们需要修改连接数据库的host。
+11. 给docker run 添加 --network=host选项
+先删除所有运行的docker
+```javascript
+docker kill xxx
+docker rm xxx
+docker run --network=host -v /home/blog/blog-data/:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
+docker run --network=host -p 3000:3000 -d haiying/node-web-app
+curl -L http://localhost:3000
+```
+这样的话我们就实现了在阿里云上连接数据库。
