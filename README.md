@@ -794,3 +794,16 @@ docker run --network=host -p 3000:3000 -d haiying/node-web-app
 curl -L http://localhost:3000
 ```
 这样的话我们就实现了在阿里云上连接数据库。
+
+12. 创建数据库
+在我们运行curl时，我们还是发现了如下报错，说明阿里云上没有数据库，因此我们需要在阿里云上创建数据库。
+```javascript
+error: database "blog_development" does not exist
+```
+
+创建的方法和在windows上一致。
+```javascript
+
+docker exec -it psgl容器id bash
+psql -U blog -W
+``
