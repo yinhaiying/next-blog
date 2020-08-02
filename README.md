@@ -689,7 +689,7 @@ docker build -t haiying/node-web-app .
 docker run -p 3000:3000 -d haiying/node-web-app
 ```
 
-查看是否运行成功，这里可能会失败：
+4 查看是否运行成功，这里可能会失败：
 ```javascript
 docker ps       // 查看运行成功的端口
 docker ps -a    // 查看所有端口，包括运行失败的端口
@@ -701,6 +701,7 @@ docker logs + 端口号   // 查看端口运行失败的日志
  Could not find a valid build in the '/usr/src/app/.next' directory! Try building your app with 'next build' before starting the server.
 ```
 这表明我们没有进行yarn build，导致服务器上的.next中没有build文件，因此，我们需要提前build好文件，然后再上传到github。再使用docker。因此，我们需要先在root安装yarn和node。
+5. 安装yarn 和 node
 ```javascript
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -728,6 +729,7 @@ cd next/blog
 yarn install
 yarn build
 ```
+7. 在服务器上修改.env.local文件。
 这时候build时会发现报错，这是因为我们github上是没有.env.local文件的，导致获取不到SECRET,但是我们又不能
 将.env.local上传到github，因此我们需要手动在服务器上创建.env.local文件并写入内容。然后再重新build。
 然后再重新创建docker应用，并且运行docker应用。
@@ -742,6 +744,7 @@ docker run -p 3000:3000 -d haiying/node-web-app
   "host": "192.168.xx.xxx",
 ```
 这会导致阿里云一直去连接这个host，从而失败。因此我们需要根据在所有使用到Host的地方根据环境来判断Host的设置。
+8. 根据环境设置Host
 修改getDatabaseConnection.tsx文件。
 ```javascript
 const create = () => {
@@ -754,3 +757,17 @@ const create = () => {
 }
 
 ```
+9. 重新开始
+由于涉及到代码的更新，我们需要重新从github拉取远程代码到阿里云。因此，整个过程都需要重新开始。
+```javascript
+git pull
+yarn install
+yarn build
+docker ps
+docker kill + 端口号
+docker rm + 端口号
+docker build -t haiying/node-web-app .
+docker run -p 3000:3000 -d haiying/node-web-app
+curl -L http://localhost:3000
+```
+如果出现报错：可以通过docker logs + 端口号
