@@ -1,19 +1,40 @@
 import React from 'react';
-import { getPost, getPostIds } from '../../lib/posts';
 import { getDatabaseConnection } from '../../lib/getDatabaseConnection';
 import { GetServerSideProps, NextPage } from 'next';
-import { Post } from '../../src/entity/Post'
+import { Post } from '../../src/entity/Post';
+import marked from 'marked';
 type Props = {
   post: Post
 }
 const postsShow: NextPage<Props> = (props) => {
   const { post } = props;
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <article dangerouslySetInnerHTML={{ __html: post.content }}>
-      </article>
-    </div>
+    <>
+      <div className="wrapper">
+        <h2>{post.title}</h2>
+        <article className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(post.content) }}>
+        </article>
+      </div>
+      <style jsx>
+        {
+          `
+           .wrapper{
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+           }
+           h2{
+             border-bottom:1px solid #ddd;
+             padding-bottom:16px;
+             margin-bottom:16px;
+           }
+          `
+        }
+      </style>
+    </>
+
   );
 };
 

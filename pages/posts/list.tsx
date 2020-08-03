@@ -22,7 +22,7 @@ const PostsList: NextPage<Props> = (props) => {
           <div key={p.id} className="postItem">
             <Link href={`/posts/${p.id}`}>
               <a>
-                {p.id}
+                {p.title}
               </a>
             </Link>
           </div>)}

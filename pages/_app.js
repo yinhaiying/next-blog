@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import 'styles/global.scss'
-
+import "github-markdown-css"
 export default function App({ Component, pageProps }) {
   return <>
     <Head>
