@@ -15,22 +15,46 @@ const PostsList: NextPage<Props> = (props) => {
   const { posts, count, size, page, totalPage } = props;
   const { pager } = usePager({ page, totalPage });
   return (
-    <div>
-      <h1>文章列表:{count}</h1>
-      {posts.map(p =>
-        <div key={p.id}>
-          <Link href={`/posts/${p.id}`}>
-            <a>
-              {p.id}
-            </a>
-          </Link>
-        </div>)}
-      <footer>
-        {pager}
+    <>
+      <div className="posts">
+        <h1>文章列表</h1>
+        {posts.map(p =>
+          <div key={p.id} className="postItem">
+            <Link href={`/posts/${p.id}`}>
+              <a>
+                {p.id}
+              </a>
+            </Link>
+          </div>)}
+        <footer>
+          {pager}
+        </footer>
+      </div>
+      <style jsx>
+        {
+          `
+          .posts{
+            max-width:800px;
+            margin:0 auto;
+            padding:16px;
+          }
+          .postItem{
+            border-bottom:1px solid #ddd;
+            padding:8px 0;
+          }
+          .postItem > a{
+            border-bottom:none;
+            color:#000;
+          }
+          .postItem > a:hover{
+            color:#00adb5;
+          }
 
+        `
+        }
+      </style>
+    </>
 
-      </footer>
-    </div>
   );
 };
 
@@ -40,7 +64,7 @@ export default PostsList;
 export const getServerSideProps: GetServerSideProps<any, { id: string }> = async (context) => {
   const connection = await getDatabaseConnection();
   let page = parseInt(getParam(context.req.url, 'page')) <= 0 ? 1 : parseInt(getParam(context.req.url, 'page'));
-  const size = parseInt(getParam(context.req.url, 'size')) || 2;
+  const size = parseInt(getParam(context.req.url, 'size')) || 10;
   const [posts, count] = await connection.manager.findAndCount(Post, { skip: size * (page - 1), take: size });
 
   return {

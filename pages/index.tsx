@@ -28,7 +28,6 @@ const Index: NextPage = () => {
               align-items:center;
               flex-direction:column;
               hieght:100vh;
-
             }
             .cover .logo{
               position:relative;
@@ -42,6 +41,7 @@ const Index: NextPage = () => {
               top:50%;
               transform:translate(-50%,-50%);
               text-align:center;
+              width:100%;
             }
           `
         }

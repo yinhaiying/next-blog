@@ -29,7 +29,7 @@ export const usePager = (options: Options) => {
       i++;
     }
   }
-  const pager = (
+  const pager = totalPage > 1 ? (
     <div className="wrapper">
       {
         page > 1 && <Link href={_urlMaker(page - 1)}>
@@ -53,16 +53,26 @@ export const usePager = (options: Options) => {
           `
           .wrapper{
             margin:0 -8px;
+            padding: 20px 0;
+            display:flex;
+            justify-content:center;
+            alignitems:center;
           }
           .wrapper > a,.wrapper > span{
             margin:0 8px;
+          }
+          a{
+            color:#000;
+          }
+          a:hover{
+            color:#00adb5;
           }
 
           `
         }
       </style>
     </div>
-  )
+  ) : null;
 
   return {
     pager
