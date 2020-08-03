@@ -17,7 +17,12 @@ const PostsList: NextPage<Props> = (props) => {
   return (
     <>
       <div className="posts">
-        <h1>文章列表</h1>
+        <header>
+          <h1>文章列表</h1>
+          <Link href="/posts/new">
+            <a>新增文章</a>
+          </Link>
+        </header>
         {posts.map(p =>
           <div key={p.id} className="postItem">
             <Link href={`/posts/${p.id}`}>
@@ -37,6 +42,13 @@ const PostsList: NextPage<Props> = (props) => {
             max-width:800px;
             margin:0 auto;
             padding:16px;
+          }
+          .posts > header{
+            display:flex;
+            align-items:center;
+          }
+          .posts > header > h1{
+            margin-right:auto;
           }
           .postItem{
             border-bottom:1px solid #ddd;

@@ -2,6 +2,7 @@ import React from 'react';
 import { getDatabaseConnection } from '../../lib/getDatabaseConnection';
 import { GetServerSideProps, NextPage } from 'next';
 import { Post } from '../../src/entity/Post';
+import Link from 'next/link'
 import marked from 'marked';
 type Props = {
   post: Post
@@ -11,7 +12,15 @@ const postsShow: NextPage<Props> = (props) => {
   return (
     <>
       <div className="wrapper">
-        <h2>{post.title}</h2>
+        <header>
+          <h1>{post.title}</h1>
+          <div>
+            <Link href="/posts/[id]/edit" as={`/posts/${post.id}/edit`}>
+              <a>编辑文章</a>
+            </Link>
+          </div>
+
+        </header>
         <article className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(post.content) }}>
         </article>
       </div>
@@ -25,11 +34,16 @@ const postsShow: NextPage<Props> = (props) => {
             margin: 0 auto;
             padding: 45px;
            }
-           h2{
-             border-bottom:1px solid #ddd;
-             padding-bottom:16px;
-             margin-bottom:16px;
-           }
+           .wrapper > header{
+            display:flex;
+            align-items:center;
+          }
+          .wrapper > header > h1{
+            margin-right:auto;
+            border-bottom:1px solid #ddd;
+            padding-bottom:16px;
+            margin-bottom:16px;
+          }
           `
         }
       </style>
