@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import _ from 'lodash';
+import dynamic from 'next/dynamic'
 
 type Options = {
   page: number;
@@ -29,6 +30,7 @@ export const usePager = (options: Options) => {
       i++;
     }
   }
+
   const pager = totalPage > 1 ? (
     <div className="wrapper">
       {

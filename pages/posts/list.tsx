@@ -78,7 +78,6 @@ export const getServerSideProps: GetServerSideProps<any, { id: string }> = async
   let page = parseInt(getParam(context.req.url, 'page')) <= 0 ? 1 : parseInt(getParam(context.req.url, 'page'));
   const size = parseInt(getParam(context.req.url, 'size')) || 10;
   const [posts, count] = await connection.manager.findAndCount(Post, { skip: size * (page - 1), take: size });
-
   return {
     props: {
       posts: JSON.parse(JSON.stringify(posts)),
