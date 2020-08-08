@@ -56,7 +56,6 @@ export default postsShow;
 
 export const getServerSideProps: GetServerSideProps<any, { id: string }> = async (context) => {
   const connection = await getDatabaseConnection();
-  console.log('params', context.params)
   const post = await connection.manager.findOne(Post, context.params.id)
   return {
     props: {

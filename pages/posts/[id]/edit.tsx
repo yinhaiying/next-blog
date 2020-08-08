@@ -1,10 +1,19 @@
-import { NextPage } from 'next';
+import { NextPage, GetServerSideProps } from 'next';
 import { useState, useCallback } from 'react';
 import axios, { AxiosResponse } from 'axios'
-const New: NextPage = () => {
+import { getDatabaseConnection } from 'lib/getDatabaseConnection';
+import marked from 'marked';
+import { Post } from 'src/entity/Post'
+type Props = {
+  id: number;
+  post: Post
+}
+const EditPage: NextPage<Props> = (props) => {
+  const { post, id } = props;
+  console.log(post.content)
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
+    title: post.title,
+    content: post.content,
   });
   const [errors, setErrors] = useState({
     title: [],
@@ -12,9 +21,9 @@ const New: NextPage = () => {
   });
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    axios.post('/api/v1/posts', formData)
+    axios.patch('/api/v1/posts/${id}', formData)
       .then((res) => {
-        window.alert('添加成功');
+        window.alert('修改成功');
         window.location.href = "/posts/list";
       }).catch((error) => {
         if (error.response) {
@@ -34,7 +43,6 @@ const New: NextPage = () => {
         <div>
           <label className="field-label">
             <span className="label-title">标题：</span>
-
             <input className="label-content" type="text" value={formData.title} onChange={e => setFormData({
               ...formData,
               title: e.target.value
@@ -45,7 +53,6 @@ const New: NextPage = () => {
         <div>
           <label className="field-label">
             <span className="label-title">内容：</span>
-            {JSON.stringify(formData.content)}
             <textarea className="label-content" value={formData.content} onChange={e => setFormData({
               ...formData,
               content: e.target.value
@@ -103,4 +110,18 @@ const New: NextPage = () => {
     </>
   )
 }
-export default New;
+export default EditPage;
+
+
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.params;
+  const connection = await getDatabaseConnection();
+  const post = await connection.manager.findOne('Post', id)
+  return {
+    props: {
+      id: parseInt(id.toString()),
+      post: JSON.parse(JSON.stringify(post))
+    }
+  }
+}
