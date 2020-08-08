@@ -865,3 +865,10 @@ docker run --network=host -p 3000:3000 -d haiying/node-web-app
 curl -L http://localhost:3000
 docker logs xx
 ```
+
+## 重启docker
+如果docker被关闭了，那么千万不要删除docker，而是重启docker即可。docker一旦被删除，那么所有的内容就会被删除。尤其是数据库。
+```javascript
+docker restart +端口
+
+```
