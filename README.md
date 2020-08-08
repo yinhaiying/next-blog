@@ -854,7 +854,7 @@ yarn install --production=false
 全部步骤：
 ```javascript
 git pull    // 拉代码时需要输入密码：区分大小写
-yarn install
+yarn install --production=false
 yarn build
 docker ps
 docker kill xxx
