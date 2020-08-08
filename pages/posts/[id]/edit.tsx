@@ -21,10 +21,10 @@ const EditPage: NextPage<Props> = (props) => {
   });
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    axios.patch('/api/v1/posts/${id}', formData)
+    axios.patch('/api/v1/posts/${id}', { ...formData, id })
       .then((res) => {
         window.alert('修改成功');
-        window.location.href = "/posts/list";
+        window.location.href = `/posts/${id}`;
       }).catch((error) => {
         if (error.response) {
           const response: AxiosResponse = error.response;
