@@ -45,7 +45,6 @@ const New: NextPage = () => {
         <div>
           <label className="field-label">
             <span className="label-title">内容：</span>
-            {JSON.stringify(formData.content)}
             <textarea className="label-content" value={formData.content} onChange={e => setFormData({
               ...formData,
               content: e.target.value

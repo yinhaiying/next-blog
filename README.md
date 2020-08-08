@@ -842,19 +842,25 @@ export NODE_ENV=production  // 在第一行添加
 yarn dev
 yarn migration:run
 ```
+这时候我们build会发现报错：这是因为我们设置环境为production之后，会导致不安装开发环境的包。
+但是我们需要把这些装好之后从弄到docker中，因此需要进行一次设置。
+```javascript
+yarn install --production=false
+```
 14. 将3000端口加入安全策略
 这样的话，我们就可以通过xxx.xxx.xx.xx/3000端口在浏览器中进行访问了。
 
 ## 部署总结：
 全部步骤：
 ```javascript
-git pull
+git pull    // 拉代码时需要输入密码：区分大小写
 yarn install
 yarn build
 docker ps
 docker kill xxx
 docker rm xxx
 docker run --network=host -v /home/blog/blog-data/:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
+docker build -t haiying/node-web-app .
 docker run --network=host -p 3000:3000 -d haiying/node-web-app
 curl -L http://localhost:3000
 docker logs xx
