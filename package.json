@@ -6,6 +6,8 @@
     "dev": "concurrently \"next dev\" \"yarn compile:watch\"",
     "compile:watch": "babel -w ./src --out-dir dist --extensions .ts,.tsx",
     "compile": "babel ./src --out-dir dist --extensions .ts,.tsx",
+    "build": "next build",
+    "start": "next start",
     "typeorm:build": " babel -w ./src --out-dir dist --extensions .ts,.tsx",
     "migration:create": "typeorm migration:create",
     "migration:run": "typeorm migration:run",

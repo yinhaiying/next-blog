@@ -881,7 +881,7 @@ docker logs xx
 2. 开启psql容器 docker ps -a 查看最近运行的容器 docker restart xxx
 3. 更新代码 gitp pull yarn install --production=false yarn build
 4. 构建app容器 docker build -t haiying/node-web-app .（每次有修改后都需要重新构建build然后构建app容器，如果没有修改可以直接restart）
-5. 开启app容器 docker run --network=host -p 3000:3000 -d haiying/node-web-app
+5. 开启app容器  docker run --name app --network=host -p 3000:3000 -d haiying/node-web-app
 6. 自动化部署脚本
 ```
 
@@ -951,3 +951,11 @@ cd app    // 进入app链接
 ln -s ../shared/ormconfig.json   // 创建软链接
 ls -l // 查看软链接是否成功
 ```
+
+
+## 一键部署
+到目前为止，我们实现了通过执行远程的脚本从而实现自动化部署，但是每次部署文件有修改，我们都需要从远程拉取一遍，并没有实现真正的一键部署。那么我们可不可以直接执行本地的脚本了。注意下面的代码可能只能在bash中执行。
+```javascript
+ssh blog@xxx 'bash -s' < 'bin/deploy.sh'
+```
+
