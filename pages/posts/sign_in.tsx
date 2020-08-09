@@ -24,7 +24,12 @@ const SignUp: NextPage<{ user: User }> = (props) => {
       .then((res) => {
         window.alert('登录成功');
         const return_to = getParam(window.location.search, 'return_to');
-        window.location.href = return_to;
+        if (return_to) {
+          window.location.href = return_to;
+        } else {
+          window.location.href = "/posts/list";
+        }
+
       }).catch((error) => {
         // console.log('error:', error.response);
         if (error.response) {

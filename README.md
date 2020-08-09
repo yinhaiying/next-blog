@@ -866,9 +866,14 @@ curl -L http://localhost:3000
 docker logs xx
 ```
 
-## 重启docker
-如果docker被关闭了，那么千万不要删除docker，而是重启docker即可。docker一旦被删除，那么所有的内容就会被删除。尤其是数据库。
+## 重新部署
+如果docker被关闭了，那么千万不要删除docker，而是重启docker即可。docker一旦被删除，那么所有的内容就会被删除。尤其是数据库。当我们将阿里云服务器关闭之后，docker容器就会被关闭，再次使用时需要先开启docker容器。
 ```javascript
-docker restart +端口
-
+1. 开启服务器
+2. 开启psql容器 docker ps -a 查看最近运行的容器 docker restart xxx
+3. 更新代码 gitp pull yarn install --production=false yarn build
+4. 构建app容器 docker build -t haiying/node-web-app .
+5. 开启app容器 docker run --network=host -p 3000:3000 -d haiying/node-web-app
+6. 自动化部署脚本
 ```
+
