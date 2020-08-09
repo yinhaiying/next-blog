@@ -3,6 +3,10 @@ docker start efe2 &&
   git pull &&
   yarn install --production=false &&
   yarn build &&
+  git apply migrate.patch
+  yarn compile &&
+  yarn m:run &&
+  git reset --hard HEAD &&
   docker build -t haiying/node-web-app . &&
   docker kill app &&
   docker rm app &&
