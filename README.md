@@ -924,3 +924,11 @@ docker system prune
 
 ssh blog@xx.xx.xxx.xxx 'sh /home/blog/app/bin/deploy.sh'
 ```
+
+## 自动化部署数据库的问题
+1. 本地使用的数据库在orm.config.json中的host,database和线上都是不一致的(根本原因是json不支持动态配置)。因此我们最好分别在本地
+和线上都维护一份。注意：名称都是orm.config.json，但是本地的修改加入.gitignore中，同时线上的ormconfig.json通过软链接来进行保存。这样的话就可以避免本地修改影响到线上。
+```javascript
+git ormconfig.json   // 删除远程的文件
+.gitirnore/ormconfig.json    // 在.gitignore中天啊及ormconfig.json不纳入git版本控制
+```

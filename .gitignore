@@ -16,7 +16,7 @@
 
 # production
 /build
-
+ormconfig.json
 # misc
 .DS_Store
 
