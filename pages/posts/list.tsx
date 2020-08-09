@@ -22,6 +22,9 @@ const PostsList: NextPage<Props> = (props) => {
           <Link href="/posts/new">
             <a>新增文章</a>
           </Link>
+          <Link href="/">
+            <a>回到首页</a>
+          </Link>
         </header>
         {posts.map(p =>
           <div key={p.id} className="postItem">
