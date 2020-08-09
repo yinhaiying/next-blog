@@ -872,8 +872,14 @@ docker logs xx
 1. 开启服务器
 2. 开启psql容器 docker ps -a 查看最近运行的容器 docker restart xxx
 3. 更新代码 gitp pull yarn install --production=false yarn build
-4. 构建app容器 docker build -t haiying/node-web-app .
+4. 构建app容器 docker build -t haiying/node-web-app .（每次有修改后都需要重新构建build然后构建app容器，如果没有修改可以直接restart）
 5. 开启app容器 docker run --network=host -p 3000:3000 -d haiying/node-web-app
 6. 自动化部署脚本
 ```
 
+## 自动化部署
+所谓的自动化部署实际上就是把代码在远程服务器上进行执行。
+1. 首先在本地的git bash中运行如下代码，确保有执行权限。
+```javascript
+chomd +x bin/deploy.sh
+```
