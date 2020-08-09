@@ -655,6 +655,14 @@ ssh-keygen -t RSA -C "18840842571@163.com"
 ```javascript
 cat ~/.ssh/id_rsa.pub
 ```
+### 如何不设置密码
+这里如果需要设置密码，那样的话每次拉取的时候就都需要设置密码，也可以不设置密码，直接enter下一步。
+如果设置了密码想要修改，使用下面的语句。
+```javasceipt
+ssh-keygen -p
+```
+
+
 然后重新再次运行git clone
 ```javascript
 git clone +仓库地址
