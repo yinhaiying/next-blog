@@ -932,3 +932,22 @@ ssh blog@xx.xx.xxx.xxx 'sh /home/blog/app/bin/deploy.sh'
 git ormconfig.json   // 删除远程的文件
 .gitirnore/ormconfig.json    // 在.gitignore中天啊及ormconfig.json不纳入git版本控制
 ```
+2. 然后在远程服务器上进行修改
+```javascript
+cp ormconfig.dev.json ormconfig.json   // 拷贝一份同样的文件进行修改
+
+```
+修改`ormconfig.json`
+```javascript
+host:localhost
+database:blog_production
+```
+3. 为了进一步避免本地的ormconfig.json如果修改了影响到线上，我们通过一个软连接将ormconfig.json
+保存到另外的目录中。
+```javascript
+cd ../ && mkdir shared   // 创建一个共享的文件
+mv app/ormconfig.json shared   // 将app下面的ormconfig.json移动到shared目录
+cd app    // 进入app链接
+ln -s ../shared/ormconfig.json   // 创建软链接
+ls -l // 查看软链接是否成功
+```
