@@ -895,7 +895,7 @@ chomd +x bin/deploy.sh
 使用ssh进行登录，然后直接在后面加上你想要执行的shell命令即可。
 这样的话，就可以实现自动化执行，因此我们只需要编写脚本就可以实现自动化部署。
 ```javascript
-ssh blog@xx.xx.xx.xx 'sh /home/blog/app/bin/deploy.sh'
+ssh blog@121.89.198.238 'sh /home/blog/app/bin/deploy.sh'
 ```
 
 ```javascript
