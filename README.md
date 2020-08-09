@@ -903,3 +903,17 @@ docker start efe2   开启数据库容器
 cd /home/blog/app/  进入app目录（pwd查看当前应用路径）
 
 ```
+
+部署过程中的一些注意事项（报错）:
+1. 之前的容器（不再使用的）占用了app名字，导致如下报错信息。
+```javascript
+ The container name "/app" is already in use by container "b443198f625818e3408ee892560fb419b61726fe95f2c2f645a9ab93a9d2a513". You have to remove (or rename) that container to be able to reuse that name.
+```
+以前的一些容器占用了这个名字，只需要清理一下即可。
+```javascript
+docker system prune
+```
+2. 如果是第一次运行容器，那么app容器不存在使用docker kill app会导致报错
+解决办法：先删除docker kill xx和docker rm xx。等创建容器之后再加上。
+
+3. 如果修改了.sh文件，那么每次修改后都得到远程服务器去拉取一下，否则它执行的脚本就不是最新的。
