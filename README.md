@@ -895,7 +895,7 @@ chomd +x bin/deploy.sh
 使用ssh进行登录，然后直接在后面加上你想要执行的shell命令即可。
 这样的话，就可以实现自动化执行，因此我们只需要编写脚本就可以实现自动化部署。
 ```javascript
-ssh blog@121.89.198.238 'sh /home/blog/app/bin/deploy.sh'
+ssh blog@xx.xx.xxx.xxx 'sh /home/blog/app/bin/deploy.sh'
 ```
 
 ```javascript
@@ -917,3 +917,10 @@ docker system prune
 解决办法：先删除docker kill xx和docker rm xx。等创建容器之后再加上。
 
 3. 如果修改了.sh文件，那么每次修改后都得到远程服务器去拉取一下，否则它执行的脚本就不是最新的。
+
+### 自动化部署最终使用
+我们只需要执行下面的脚本即可。
+```javascript
+
+ssh blog@xx.xx.xxx.xxx 'sh /home/blog/app/bin/deploy.sh'
+```
