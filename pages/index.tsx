@@ -8,7 +8,7 @@ const Index: NextPage = () => {
           <img src="/bg.jpg" alt="logo" />
           <div className="title">
             <h1>海鹰的个人博客</h1>
-            <h2>总有一天你会感激今天努力的自己</h2>
+            <h2>总有一天你会感激今天努力的自己!!</h2>
           </div>
 
         </div>

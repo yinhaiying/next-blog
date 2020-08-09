@@ -655,6 +655,14 @@ ssh-keygen -t RSA -C "18840842571@163.com"
 ```javascript
 cat ~/.ssh/id_rsa.pub
 ```
+### 如何不设置密码
+这里如果需要设置密码，那样的话每次拉取的时候就都需要设置密码，也可以不设置密码，直接enter下一步。
+如果设置了密码想要修改，使用下面的语句。
+```javasceipt
+ssh-keygen -p
+```
+
+
 然后重新再次运行git clone
 ```javascript
 git clone +仓库地址
@@ -882,4 +890,16 @@ docker logs xx
 1. 首先在本地的git bash中运行如下代码，确保有执行权限。
 ```javascript
 chomd +x bin/deploy.sh
+```
+2. 本地执行
+使用ssh进行登录，然后直接在后面加上你想要执行的shell命令即可。
+这样的话，就可以实现自动化执行，因此我们只需要编写脚本就可以实现自动化部署。
+```javascript
+ssh blog@121.89.198.238 'sh /home/blog/app/bin/deploy.sh'
+```
+
+```javascript
+docker start efe2   开启数据库容器
+cd /home/blog/app/  进入app目录（pwd查看当前应用路径）
+
 ```
